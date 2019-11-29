@@ -5,6 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+    
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    body{
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #398bf2 url("./true.jpg") center top/contain  no-repeat;
+        padding-top: 40vh;
+    }
+    button{
+        height: 40px;
+        font-size: 12px;
+        border: none;
+        border-radius: 5px;
+        width: 60vw;
+        color: #398bf2;
+        background-color: #fff;
+    }
+
+    </style>
 </head>
 <body>
     <!-- <a href="https://uri.amap.com/marker?position=经度,纬度&name=所在的位置名称">高德地图</a>
@@ -42,7 +70,7 @@ let showPosition=(position)=>{
   console.log('纬度:'+lat+',经度:'+lag);
   qidian =`${lat},${lag}`;
   console.log(qidian)
-  window.location.href = `http://api.map.baidu.com/direction?origin=${qidian}&destination=${zhongdian}&mode=driving&region=武汉&output=html&src=webapp.baidu.openAPIdemo`
+ 
 };
 // 上面的代码可以知道，如果用户设备支持地理定位，则运行 getCurrentPosition() 方法。如果getCurrentPosition()运行成功，则向参数showPosition中规定的函数返回一个coordinates对象，getCurrentPosition() 方法的第二个参数showError用于处理错误，它规定当获取用户位置失败时运行的函数。
 // 我们先来看函数showError()，它规定获取用户地理位置失败时的一些错误代码处理方式：
@@ -74,8 +102,18 @@ let getLocation =()=>{
 };
 function gobaidu(){
     
-    getLocation()
+    getLocation();
+    tonewurl();
 
-    
+}
+
+function tonewurl(){
+    setTimeout(()=>{
+        if(!qidian || !zhongdian){
+          tonewurl()
+        }else{
+            window.location.href = `http://api.map.baidu.com/direction?origin=${qidian}&destination=${zhongdian}&mode=driving&region=武汉&output=html&src=webapp.baidu.openAPIdemo`
+        }
+    },500)
 }
 </script>
