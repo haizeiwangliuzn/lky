@@ -17,6 +17,7 @@
         width: 100vw;
         overflow: hidden;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         background: #398bf2 url("./true.jpg") center top/contain  no-repeat;
@@ -30,33 +31,33 @@
         width: 60vw;
         color: #398bf2;
         background-color: #fff;
+        margin-top: 5vh;
     }
 
     </style>
 </head>
 <body>
-    <!-- <a href="https://uri.amap.com/marker?position=经度,纬度&name=所在的位置名称">高德地图</a>
-    <a href="http://uri.amap.com/navigation?from=114.02597366,22.54605355&to=114.029243,22.609562&mode=car&src=nyx_super;">高德地图</a>
-    <a href="http://uri.amap.com/navigation?from=开始位置经度,开始位置纬度&to=结束位置经度,结束位置纬度&mode=car&src=nyx_super;">高德地图</a> -->
-
-    <!-- <a href="http://api.map.baidu.com/direction?origin=22.54605355,114.02597366&destination=22.609562,114.029243&mode=driving&region=深圳&output=html&src=webapp.baidu.openAPIdemo">百度地图</a> -->
-    <button onclick="gobaidu()">路程导航</button>
+    <button onclick="gobaidu()">百度路程导航</button>
+    <button onclick="gogaode()">高德路程导航</button>
 </body>
 </html>
 
 <script>
 let qidian;
 let zhongdian;
+let _qidian;
+let _zhongdian;
 
 function getQueryString(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 	var r = window.location.search.substr(1).match(reg);
 	if (r != null) return unescape(r[2]); return null;
 }
- 
-zhongdian = getQueryString("from");
-console.log(zhongdian)
-
+let zhonglat = getQueryString("lat"); 
+let zhonglag = getQueryString("lag"); 
+zhongdian = zhonglat + "," + zhonglag;
+_zhongdian = zhonglag + "," + zhonglat;  
+console.log(zhongdian);
 // window.location.href = `http://api.map.baidu.com/direction?origin=22.54605355,114.02597366&destination=22.609562,114.029243&mode=driving&region=深圳&output=html`
 
 
@@ -69,6 +70,7 @@ let showPosition=(position)=>{
   var lag = position.coords.longitude; //经度
   console.log('纬度:'+lat+',经度:'+lag);
   qidian =`${lat},${lag}`;
+  _qidian =`${lag},${lat}`;
   console.log(qidian)
  
 };
@@ -104,16 +106,29 @@ function gobaidu(){
     
     getLocation();
     tonewurl();
-
 }
-
+function gogaode(){
+    getLocation();
+    tonewgaourl();
+}
 function tonewurl(){
-    setTimeout(()=>{
-        if(!qidian || !zhongdian){
-          tonewurl()
-        }else{
-            window.location.href = `http://api.map.baidu.com/direction?origin=${qidian}&destination=${zhongdian}&mode=driving&region=武汉&output=html&src=webapp.baidu.openAPIdemo`
-        }
-    },500)
+        setTimeout(()=>{
+            if(!qidian || !zhongdian){
+              tonewurl()
+            }else{
+              console.log("_____")
+                window.location.href = `http://api.map.baidu.com/direction?origin=${qidian}&destination=${zhongdian}&mode=driving&region=武汉&output=html&src=webapp.baidu.openAPIdemo`
+            }
+        },500)
+}
+function tonewgaourl(){
+        setTimeout(()=>{
+            if(!qidian || !zhongdian){
+              tonewgaourl()
+            }else{
+              console.log("_____")
+                window.location.href = `http://uri.amap.com/navigation?from=${_qidian}&to=${_zhongdian}&mode=car&src=nyx_super`
+            }
+        },500)
 }
 </script>
