@@ -53,11 +53,14 @@ function getQueryString(name) {
 	var r = window.location.search.substr(1).match(reg);
 	if (r != null) return unescape(r[2]); return null;
 }
-let zhonglat = getQueryString("lat"); 
-let zhonglag = getQueryString("lag"); 
-zhongdian = zhonglat + "," + zhonglag;
-_zhongdian = zhonglag + "," + zhonglat;  
-console.log(zhongdian);
+let slat = getQueryString("slat"); 
+let slag = getQueryString("slag"); 
+let elat = getQueryString("elat"); 
+let elag = getQueryString("elag"); 
+qidian =`${slat},${slag}`;
+_qidian =`${slag},${slat}`;
+zhongdian = elat + "," + elag;
+_zhongdian = elag + "," + elat;  
 // window.location.href = `http://api.map.baidu.com/direction?origin=22.54605355,114.02597366&destination=22.609562,114.029243&mode=driving&region=深圳&output=html`
 
 
@@ -103,34 +106,17 @@ let getLocation =()=>{
  
 };
 function gobaidu(){
-    
-    getLocation();
+    // getLocation();
     tonewurl();
 }
 function gogaode(){
-    getLocation();
+    // getLocation();
     tonewgaourl();
 }
 function tonewurl(){
-        setTimeout(()=>{
-            if(!qidian || !zhongdian){
-              tonewurl()
-            }else{
-              console.log("_____")
-                window.location.href = `http://api.map.baidu.com/direction?origin=${qidian}&destination=${zhongdian}&mode=driving&region=武汉&output=html&src=webapp.baidu.openAPIdemo`
-            }
-        },500)
+  window.location.href = `http://api.map.baidu.com/direction?origin=${qidian}&destination=${zhongdian}&mode=driving&region=武汉&output=html&src=webapp.baidu.openAPIdemo`
 }
 function tonewgaourl(){
-        setTimeout(()=>{
-            if(!qidian || !zhongdian){
-              tonewgaourl()
-            }else{
-              console.log("_____")
-
-                // window.location.href = `http://uri.amap.com/navigation?from=${_qidian}&to=${_zhongdian}&mode=car&src=nyx_super`;
-                window.location.href = `https://uri.amap.com/navigation?from=${_qidian},当前位置&to=${_zhongdian},黄鹤楼&mode=car&policy=1&src=mypage&coordinate=gaode&callnative=0`
-            }
-        },500)
+  window.location.href = `https://uri.amap.com/navigation?from=${_qidian},当前位置&to=${_zhongdian},目标位置&mode=car&policy=1&src=mypage&coordinate=gaode&callnative=0`
 }
 </script>
